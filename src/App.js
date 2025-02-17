@@ -1,5 +1,6 @@
 import './App.css';
 import BioData from './components/Biodata';
+import Counter from './components/Counter';
 
 const bio_datas = [
   {
@@ -63,22 +64,9 @@ const bio_datas = [
 
 function App() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100vh", backgroundColor: "#f4f4f4", padding: "20px" }}>
-
-      {bio_datas.map((bio_data) => (
-        <BioData 
-          name= {bio_data.name}
-          img= {bio_data.img}
-          designation= {bio_data.designation}
-          education= {bio_data.education}
-          location= {bio_data.location}
-          socialLinks={bio_data.socialLinks}
-          
-        />
-      ))}
-      
-    </div>
+    <Counter />
   );
 }
+
 
 export default App;
