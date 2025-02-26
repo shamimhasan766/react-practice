@@ -1,43 +1,10 @@
-const AllStudents = (props) => {
-    const { students, setEditMode, setEditableStudent , setStudentName , setStudents } = props;
+import { useContext } from "react";
+import { StudentCtx } from "../../contexts/StudentCtx";
 
-    const editHandler = (student) => {
-        setEditMode(true);
-        setEditableStudent(student);
-        setStudentName(student.name);
-    }
+const AllStudents = () => {
+    const { students, editHandler, removeHandler, presentHandler, absentHandler } = useContext(StudentCtx);
 
-    const presentHandler = (student) => {
-        if(student.isPresent !== undefined) {
-            return alert(`This student is already marked as ${student.isPresent ? 'Present' : 'Absent'} `);
-        }
-
-        const updatedStudents = students.map((s) => {
-            if(s.id === student.id) {
-                return {...student, isPresent: true};
-            }
-            return s;
-        });
-        setStudents(updatedStudents);
-    }
-
-    const removeHandler = (student) => {
-        const updatedStudents = students.filter((s) => s.id !== student.id);
-        setStudents(updatedStudents);
-    }
-
-    const absentHandler = (student) => {
-        if(student.isPresent !== undefined) {
-            return alert(`This student is already marked as ${student.isPresent ? 'Present' : 'Absent'} `);
-        }
-        const updatedStudents = students.map((s) => {
-            if(s.id === student.id) {
-                return {...student, isPresent: false};
-            }
-            return s;
-        });
-        setStudents(updatedStudents);
-    }
+   
     return (
             <div style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 4px 10px rgba(0,0,0,0.2)", width: "30%", textAlign: "center" }}>
                 <h3 style={{ color: "#333", marginBottom: "15px" }}>All Students</h3>

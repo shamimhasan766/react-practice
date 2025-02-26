@@ -1,43 +1,9 @@
-const StudentForm = (props) => {
-    const {studentName , editMode , setStudents, students, setStudentName, editableStudent, setEditMode, setEditableStudent } = props;
+import { useContext } from "react";
+import { StudentCtx } from "../../contexts/StudentCtx";
+
+const StudentForm = () => {
+    const {studentName , editMode , changeNameHandler, submitHandler } = useContext(StudentCtx);
    
-    const submitHandler = (e) => {
-        e.preventDefault();
-        if(studentName.trim() === '') {
-            return alert('Please enter a student name');
-        }
-
-        editMode ? updateHandler() : createHandler();
-    }
-
-    const createHandler = () => {
-        const newStudent = {
-            id: Date.now() + '',
-            name: studentName,
-            isPresent: undefined
-        }
-
-        setStudents([newStudent, ...students]);
-        setStudentName('');
-    }
-
-    const updateHandler = () => {
-        const updatedStudents = students.map((student) => {
-            if(student.id === editableStudent.id) {
-                return {...student, name: studentName};
-            }
-            return student;
-        });
-        setStudents(updatedStudents);
-        setStudentName('');
-        setEditMode(false);
-        setEditableStudent(null);
-    }
-
-    const changeNameHandler = (e) => {
-        setStudentName(e.target.value);
-    }
-
     return (
         <form onSubmit={submitHandler}>
             <div style={{ display: "flex", gap: "10px", marginBottom: "20px", padding: "10px", backgroundColor: "#fff", borderRadius: "8px", boxShadow: "0 2px 5px rgba(0,0,0,0.2)", width: "400px" }}>

@@ -1,5 +1,8 @@
-const PresentStudents = (props) => {
-    const { students, changeStudentStatus } = props;
+import { useContext } from "react";
+import { StudentCtx } from "../../contexts/StudentCtx";
+
+const PresentStudents = () => {
+    const { students, changeStudentStatus } = useContext(StudentCtx);
     return (
         <div style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 4px 10px rgba(0,0,0,0.2)", width: "30%", textAlign: "center" }}>
             <h3 style={{ color: "#28a745", marginBottom: "15px" }}>Present Students</h3>
