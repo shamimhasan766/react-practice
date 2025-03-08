@@ -2,11 +2,11 @@ import { useContext } from "react";
 import { StudentCtx } from "../../contexts/StudentCtx";
 
 const AbsentStudents = () => {
-    const { students, changeStudentStatus } = useContext(StudentCtx);
+    const { studentState, changeStudentStatus } = useContext(StudentCtx);
     return (
         <div style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 4px 10px rgba(0,0,0,0.2)", width: "30%", textAlign: "center" }}>
             <h3 style={{ color: "#dc3545", marginBottom: "15px" }}>Absent Students</h3>
-            {students.filter((student) => student.isPresent === false).map((student) => (
+            {studentState.students.filter((student) => student.isPresent === false).map((student) => (
                 <div key={student.id} style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "10px" }}>
                     <div style={{ backgroundColor: "#f8d7da", padding: "10px", borderRadius: "8px", display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid #721c24" }}>
                         <span>{student.name}</span>
