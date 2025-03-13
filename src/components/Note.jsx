@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Note = () => {
     const [noteTitle, setNoteTitle] = useState("");
     const [notes , setNotes] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [editableNote, setEditableNote] = useState(null);
+
+    const getAllNotes = () => {
+        fetch('http://localhost:3001/notes')
+        .then(response => response.json())
+        .then(data => setNotes(data));
+    }
+
+    useEffect(() => {
+        getAllNotes();
+    }, []);
 
     const changeNoteTitleHandler = (e) => {
         setNoteTitle(e.target.value);
@@ -25,13 +35,32 @@ const Note = () => {
             id: Date.now() + "",
             title: noteTitle,
         }
-        setNotes([newNote, ...notes]);
+        fetch('http://localhost:3001/notes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newNote)
+        })
+        .then(
+            () => {
+                getAllNotes();
+            }
+        )
+        // setNotes([newNote, ...notes]);
         setNoteTitle("");
     }
 
     const removeNoteHandler = (noteId) => {
-        const updatedNotes = notes.filter((note) => note.id !== noteId);
-        setNotes(updatedNotes); 
+        fetch(`http://localhost:3001/notes/${noteId}`, {
+            method: 'DELETE'
+        })
+        .then(
+            () => {
+                getAllNotes();
+            }
+        )
+        // setNotes(notes.filter(note => note.id !== noteId));
     } 
 
     const editNoteHandler = (note) => {
@@ -40,13 +69,27 @@ const Note = () => {
         setNoteTitle(note.title);
     }
     const updateNoteHandler = () => {
-        const updatedNotes = notes.map((note) => {
-            if(note.id === editableNote.id) {
-                return {...note, title: noteTitle};
+        const {id , ...rest} = editableNote;
+        const updatedNote = {...rest, title: noteTitle};
+        fetch(`http://localhost:3001/notes/${editableNote.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedNote)
+        })
+        .then(
+            () => {
+                getAllNotes();
             }
-            return note;
-        });
-        setNotes(updatedNotes);
+        )
+        // const updatedNotes = notes.map((note) => {
+        //     if(note.id === editableNote.id) {
+        //         return {...note, title: noteTitle};
+        //     }
+        //     return note;
+        // });
+        // setNotes(updatedNotes);
         setNoteTitle("");
         setEditMode(false);
         setEditableNote(null);
